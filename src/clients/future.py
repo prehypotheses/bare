@@ -90,7 +90,8 @@ class Future:
         with gradio.Blocks() as demo:
 
             gradio.Markdown(value=('<h1>Token Classification</h1><br><b>An illustrative interactive interface; the interface '
-                                   'software allows for advanced interfaces.</b>'), line_breaks=True)
+                                   'software allows for advanced interfaces.</b><br>The classes are art, building, event, '
+                                   'location, organisation, and product-weapon.'), line_breaks=True)
 
             with gradio.Row():
                 with gradio.Column(scale=3):
