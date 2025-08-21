@@ -2,16 +2,16 @@
 
 ## Development Environment
 
-<br>
+The outlined remote environment is used build and test [https://huggingface.co](https://huggingface.co) Space `gradio` applications.
 
 ### Remote Development
 
-For this Python project/template, the remote development environment requires
+The remote development environment requires
 
 * [Dockerfile](../.devcontainer/Dockerfile)
 * [requirements.txt](../.devcontainer/requirements.txt)
 
-An image is built via the command
+The image is built via the command
 
 ```shell
 docker build . --file .devcontainer/Dockerfile -t interact
@@ -34,7 +34,7 @@ should include
 
 <br>
 
-Subsequently, run a container, i.e., an instance, of the image `interact` via:
+Subsequently, a container, i.e., an instance, of the image `interact` is launched via variations of:
 
 <br>
 
@@ -52,7 +52,9 @@ Herein, `-p 7860:7860` maps the host port `7860` to container port `7860`.  Note
 * --rm: [automatically remove container](https://docs.docker.com/engine/reference/commandline/run/#:~:text=a%20container%20exits-,%2D%2Drm,-Automatically%20remove%20the)
 * -i: [interact](https://docs.docker.com/engine/reference/commandline/run/#:~:text=and%20reaps%20processes-,%2D%2Dinteractive,-%2C%20%2Di)
 * -t: [tag](https://docs.docker.com/get-started/02_our_app/#:~:text=Finally%2C%20the-,%2Dt,-flag%20tags%20your)
-* -p: [publish a container's ports to its host](https://docs.docker.com/engine/reference/commandline/run/#:~:text=%2D%2Dpublish%20%2C-,%2Dp,-Publish%20a%20container%E2%80%99s)
+* -p: [publish the container's port/s to the host](https://docs.docker.com/engine/reference/commandline/run/#:~:text=%2D%2Dpublish%20%2C-,%2Dp,-Publish%20a%20container%E2%80%99s)
+* --mount type=bind: [a bind mount](https://docs.docker.com/engine/storage/bind-mounts/#syntax)
+* -v: [volume](https://docs.docker.com/engine/storage/volumes/)
 
 <br>
 
@@ -61,25 +63,6 @@ Get the name of the running instance of ``interact`` via:
 ```shell
 docker ps --all
 ```
-
-Never deploy a root container.
-
-<br>
-
-### Remote Development & Integrated Development Environments
-
-An IDE (integrated development environment) is a helpful remote development tool.  The **IntelliJ
-IDEA** set up involves connecting to a machine's Docker [daemon](https://www.jetbrains.com/help/idea/docker.html#connect_to_docker), the steps are
-
-<br>
-
-> * **Settings** $\rightarrow$ **Build, Execution, Deployment** $\rightarrow$ **Docker** $\rightarrow$ **WSL:** {select the linux operating system}
-> * **View** $\rightarrow$ **Tool Window** $\rightarrow$ **Services** <br>Within the **Containers** section connect to the running instance of interest, or ascertain connection to the running instance of interest.
-
-<br>
-
-**Visual Studio Code** has its container attachment instructions; study [Attach Container](https://code.visualstudio.com/docs/devcontainers/attach-container).
-
 
 <br>
 <br>
@@ -158,46 +141,10 @@ python -m flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 -
 
 inspects complexity.
 
-<br>
-<br>
-
-## Snippets
-
-```shell
-@staticmethod
-def __selection():
-    """
-    Notes<br>
-    -------<br>
-
-    <b>Objective</b>: The wherewithal to click on a highlighted text and correct 
-    its tag assignment if it is incorrect.  Subsequently, the corrected piece is 
-    saved in alongside the original results; opt for a smart saving option.<br><br>
-
-    def onselect(event: gradio.SelectData): return event.index.<br>
-    .select(onselect, inputs=None, outputs=options)<br><br>
-
-    :return:
-    """
-
-    gradio.Dropdown(
-        ['O', 'B-GEO', 'B-GPE', 'B-TIM', 'B-ORG', 'I-GEO', 'B-PER', 
-         'I-PER', 'I-ORG', 'I-TIM', 'I-GPE'],
-        interactive=True, label='tags')
-```
-
-<br>
-
-```python
-import datetime
-
-datetime.datetime.now().strftime('%Y-%m-%d')
-```
-
-
 
 <br>
 <br>
+
 
 ## References
 
@@ -211,9 +158,16 @@ Interfaces:
   * [Named Entity Recognition](https://www.gradio.app/guides/named-entity-recognition)
 * [Generators](https://jamstack.org/generators/)
   * [11ty](https://www.11ty.dev)
+* [Docker Spaces](https://huggingface.co/docs/hub/spaces-sdks-docker#docker-spaces)
+* [Demonstration](https://huggingface.co/docs/hub/spaces-sdks-docker-first-demo)
+* [Deploying a Gradio app with Docker](https://www.gradio.app/guides/deploying-gradio-with-docker)
 
 Amazon:
 * [Prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html)
+
+Engineering
+* [Switching User in Docker Image or Container](https://www.baeldung.com/linux/docker-image-container-switch-user)
+
 
 <br>
 <br>
