@@ -25,6 +25,7 @@ class Config:
 
         # Amazon
         self.s3_parameters_key = 's3_parameters.yaml'
+        self.arguments_key = 'bare/arguments.json'
 
         # Examples
         self.examples = [
