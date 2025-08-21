@@ -56,9 +56,7 @@ class Future:
         summary = pd.DataFrame.from_records(data=tokens)
         logging.info('The summary:\n %s', summary)
 
-        if summary.empty:
-            summary = summary
-        else:
+        if not summary.empty:
             summary = summary.copy()[['word', 'entity', 'score']]
 
         # For the future
