@@ -46,9 +46,9 @@ class Mappings:
         instances.sort_values(by='index', ascending=True, inplace=True)
 
         # The distinct categories
-        n_categories = instances['category'].unique().shape[0]
+        n_entities = instances['entity'].unique().shape[0]
 
-        return instances, n_categories
+        return instances, n_entities
 
     def __code_of_tag(self, instance: np.ndarray) -> int:
         """
@@ -62,9 +62,9 @@ class Mappings:
         if sum(conditionals) == 0:
             return -1
 
-        instances, n_categories = self.__instances(conditionals=conditionals)
+        instances, n_entities = self.__instances(conditionals=conditionals)
 
-        if n_categories == 1:
+        if n_entities == 1:
             return instances['code_of_tag_p'].to_numpy()[0]
 
         return -1
@@ -81,9 +81,9 @@ class Mappings:
         if sum(conditionals) == 0:
             return np.nan
 
-        instances, n_categories = self.__instances(conditionals=conditionals)
+        instances, n_entities = self.__instances(conditionals=conditionals)
 
-        if n_categories == 1:
+        if n_entities == 1:
             return instances['score'].to_numpy().prod()
 
         return np.nan

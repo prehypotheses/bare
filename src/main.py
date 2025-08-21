@@ -16,15 +16,8 @@ def main():
 
     logger: logging.Logger = logging.getLogger(__name__)
 
-    # Set up
-    setup: bool = src.setup.Setup(service=service, s3_parameters=s3_parameters).exc(reacquire=reacquire)
-    if not setup:
-        src.functions.cache.Cache().exc()
-        sys.exit('No Executions')
-
-    # ...
-    logger.info('Re-acquire: %s', reacquire)
-    if reacquire:
+    logger.info('Re-acquire: %s', arguments.get('reacquire'))
+    if arguments.get('reacquire'):
         src.data.interface.Interface(s3_parameters=s3_parameters).exc()
 
     # Explore/Interact
@@ -54,11 +47,12 @@ if __name__ == '__main__':
     # Classes
     import src.clients.interface
     import src.data.interface
-    import src.variables
-    import src.functions.service
+    import src.elements.s3_parameters as s3p
+    import src.elements.service as sr
     import src.functions.cache
-    import src.s3.s3_parameters
-    import src.setup
+    import src.preface.interface
+    import src.variables
+
 
     # The arguments, i.e., input variables.
     variables = src.variables.Variables()
@@ -68,12 +62,10 @@ if __name__ == '__main__':
                               'Should the model artefacts be reacquired?'))
     args = parser.parse_args()
 
-    # Default reacquire?
-    reacquire = False if args.reacquire is None else args.reacquire
-
-    # S3 S3Parameters, Service Instance
-    connector = boto3.session.Session()
-    s3_parameters = src.s3.s3_parameters.S3Parameters(connector=connector).exc()
-    service = src.functions.service.Service(connector=connector, region_name=s3_parameters.region_name).exc()
+    connector: boto3.session.Session
+    s3_parameters: s3p
+    service: sr.Service
+    arguments: dict
+    connector, s3_parameters, service, arguments = src.preface.interface.Interface().exc(reacquire=args.reacquire)
 
     main()

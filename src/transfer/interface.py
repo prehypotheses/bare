@@ -43,7 +43,7 @@ class Interface:
         # Transfer
         if not strings.empty:
             messages = src.s3.ingress.Ingress(
-                service=self.__service, bucket_name=self.__s3_parameters.external).exc(strings=strings)
+                service=self.__service, bucket_name=self.__s3_parameters.external).exc(strings=strings, tagging='project=few')
             logging.info(messages)
         else:
             logging.info('Empty')

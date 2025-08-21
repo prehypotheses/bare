@@ -10,6 +10,7 @@ import src.algorithms.mappings
 import src.algorithms.page
 import src.functions.objects
 import src.functions.streams
+import src.algorithms.inapplicable
 
 
 class Interface:
@@ -55,7 +56,7 @@ class Interface:
 
         return  os.path.join(self.__configurations.interactions_, f'{name}.csv')
 
-    def exc(self, text: str, tokens: list):
+    def exc(self, text: str, tokens: list) -> str:
         """
 
         :param text:
@@ -70,6 +71,11 @@ class Interface:
         page = src.algorithms.page.Page(text=text).exc()
         self.__logger.info('Page:\n%s', page)
 
+        # None of the tokens is classifiable, therefore ...
+        if len(tokens) == 0:
+            mappings = src.algorithms.inapplicable.Inapplicable().exc(page=page)
+            return self.__streams.write(blob=mappings, path=self.__path())
+
         # The detections
         detections = src.algorithms.detections.Detections(tokens=tokens).exc(m_config=m_config)
         self.__logger.info('Detections:\n%s', detections)
@@ -79,4 +85,4 @@ class Interface:
         self.__logger.info('Mappings:\n%s', mappings)
 
         # Save
-        self.__streams.write(blob=mappings, path=self.__path())
+        return self.__streams.write(blob=mappings, path=self.__path())

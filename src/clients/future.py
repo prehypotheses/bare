@@ -38,8 +38,8 @@ class Future:
         # Pipeline
         self.__classifier = transformers.pipeline(
             task='ner', model=os.path.join(self.__configurations.data_, 'model'),
-            config=os.path.join(self.__configurations.data_, 'model'),
-            tokenizer=os.path.join(self.__configurations.data_, 'model'),
+            # config=os.path.join(self.__configurations.data_, 'model'),
+            # tokenizer=os.path.join(self.__configurations.data_, 'model'),
             device=self.__configurations.device)
 
     def __custom(self, text):
@@ -50,8 +50,14 @@ class Future:
         """
 
         tokens = self.__classifier(text)
+        logging.info('The tokens:\n %s', tokens)
+        # tokens = [] if tokens is None else tokens
+
         summary = pd.DataFrame.from_records(data=tokens)
-        summary = summary.copy()[['word', 'entity', 'score']]
+        logging.info('The summary:\n %s', summary)
+
+        if not summary.empty:
+            summary = summary.copy()[['word', 'entity', 'score']]
 
         # For the future
         self.__algorithms.exc(text=text, tokens=tokens)
@@ -81,8 +87,10 @@ class Future:
 
         with gradio.Blocks() as demo:
 
-            gradio.Markdown(value=('<h1>Token Classification</h1><br><b>An illustrative interactive interface; the interface '
-                                   'software allows for advanced interfaces.</b>'), line_breaks=True)
+            gradio.Markdown(value=('<h1>Token Classification</h1><br><b>An illustrative interactive interface; the '
+                                   'interface software allows for advanced interfaces.</b><br>The classes are '
+                                   '<b>art</b>, <b>building</b>, <b>event</b>, <b>location</b>, <b>organisation</b>, '
+                                   'and <b>product-weapon</b>.'), line_breaks=True)
 
             with gradio.Row():
                 with gradio.Column(scale=3):
