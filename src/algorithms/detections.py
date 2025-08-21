@@ -48,19 +48,6 @@ class Detections:
 
         return data
 
-    @staticmethod
-    def __labels(blob: pd.DataFrame):
-        """
-
-        :param blob:
-        :return:
-        """
-
-        data = blob.copy()
-        data[['annotation', 'category']] = data['entity'].str.split('-', expand=True)
-
-        return data
-
     def exc(self, m_config: dict):
         """
 
@@ -70,7 +57,6 @@ class Detections:
 
         data = self.__get_data()
         data = self.__anomaly(blob=data)
-        data = self.__labels(blob=data)
 
         data['code_of_tag_p'] = data['entity'].map(m_config['label2id'])
 
