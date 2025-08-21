@@ -49,6 +49,6 @@ class Interface:
             connector=connector, region_name=s3_parameters.region_name).exc()
 
         # Setting up the cloud storage area
-        src.preface.setup.Setup(service=service, s3_parameters=s3_parameters).exc()
+        src.preface.setup.Setup(service=service, s3_parameters=s3_parameters).exc(reacquire=arguments.get('reacquire'))
 
         return connector, s3_parameters, service, arguments
