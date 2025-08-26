@@ -18,7 +18,7 @@ class Reconstruction:
 
         frame: pd.DataFrame = mappings.copy()[self.__fields]
 
-        frame: pd.DataFrame = frame.copy().loc[frame['score'].notna, :]
+        frame: pd.DataFrame = frame.copy().loc[frame['score'].notna(), :]
         frame.rename(columns=self.__rename, inplace=True)
 
-        logging.info(frame.to_dict(orient='list'))
+        logging.info(frame.to_dict(orient='records'))
