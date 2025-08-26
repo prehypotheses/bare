@@ -36,10 +36,9 @@ class Future:
         self.__algorithms = src.algorithms.interface.Interface()
 
         # Pipeline
+        # noinspection PyTypeChecker
         self.__classifier = transformers.pipeline(
             task='ner', model=os.path.join(self.__configurations.data_, 'model'),
-            # config=os.path.join(self.__configurations.data_, 'model'),
-            # tokenizer=os.path.join(self.__configurations.data_, 'model'),
             device=self.__configurations.device)
 
     def __custom(self, text):
