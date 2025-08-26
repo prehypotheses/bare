@@ -58,7 +58,7 @@ class Interface:
 
         return  os.path.join(self.__configurations.interactions_, f'{name}.csv')
 
-    def __get_mappings(self, page: pd.DataFrame, tokens:list, m_config: dict) -> pd.DataFrame | None:
+    def __get_mappings(self, page: pd.DataFrame, tokens:list, m_config: dict) -> pd.DataFrame:
         """
 
         :param page:
