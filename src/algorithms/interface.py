@@ -78,7 +78,7 @@ class Interface:
 
         return mappings
 
-    def exc(self, text: str, tokens: list):
+    def exc(self, text: str, tokens: list) -> list:
         """
 
         :param text:
@@ -102,4 +102,4 @@ class Interface:
         mappings = self.__get_mappings(page=page, tokens=tokens, m_config=m_config)
         self.__streams.write(blob=mappings, path=self.__path())
 
-        src.algorithms.reconstruction.Reconstruction().exc(mappings=mappings)
+        return src.algorithms.reconstruction.Reconstruction().exc(mappings=mappings)
