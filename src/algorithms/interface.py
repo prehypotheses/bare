@@ -94,7 +94,8 @@ class Interface:
 
         # If tokens is empty ...
         if len(tokens) == 0:
-            return self.__streams.write(blob=src.algorithms.inapplicable.Inapplicable().exc(page=page), path=self.__path())
+            self.__streams.write(blob=src.algorithms.inapplicable.Inapplicable().exc(page=page), path=self.__path())
+            return []
 
         # Else
         mappings = self.__get_mappings(page=page, tokens=tokens, m_config=m_config)
