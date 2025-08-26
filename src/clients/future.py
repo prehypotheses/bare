@@ -58,7 +58,7 @@ class Future:
         logging.info('The summary:\n %s', summary)
 
         # For the future
-        self.__algorithms.exc(text=text, tokens=tokens)
+        tokens = tokens if len(tokens) == 0 else self.__algorithms.exc(text=text, tokens=tokens)
 
         return {'text': text, 'entities': tokens}, summary.to_dict(orient='records'), tokens
 
