@@ -1,5 +1,5 @@
 # Pytorch
-FROM pytorch/pytorch:2.4.1-cuda12.4-cudnn9-runtime
+FROM pytorch/pytorch:2.7.1-cuda12.8-cudnn9-runtime
 
 
 # Temporary
@@ -48,10 +48,8 @@ VOLUME /app/warehouse
 USER automaton
 
 
-
 # Setting-up
 ARG GRADIO_SERVER_PORT=7860
-
 ENV GRADIO_SERVER_PORT=${GRADIO_SERVER_PORT}
 ENV GRADIO_SERVER_NAME='0.0.0.0'
 
@@ -61,4 +59,4 @@ ENTRYPOINT ["python"]
 
 
 # CMD
-CMD ["src/main.py"]
+CMD ["src/main.py", "--reacquire True"]
