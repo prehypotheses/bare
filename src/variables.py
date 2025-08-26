@@ -2,6 +2,7 @@
 import logging
 import argparse
 
+
 class Variables:
     """
     Note<br>
@@ -14,10 +15,13 @@ class Variables:
     """
 
     def __init__(self):
-        pass
+        """
+        Constructor
+        """
 
-    @staticmethod
-    def reacquire(value: str) -> bool:
+        self.__values = {'True': True, 'False': False}
+
+    def reacquire(self, value: str) -> bool:
         """
 
         :param value: Either True or False.  In answer to the question - Should the model
@@ -25,10 +29,10 @@ class Variables:
         :return:
         """
 
-        logging.info('Latest: %s', value)
+        logging.info('Latest: %s', value.capitalize())
 
         try:
-            status = bool(value.capitalize())
+            status: bool = self.__values[value.capitalize()]
         except ValueError as err:
             raise argparse.ArgumentTypeError('In answer to the question - Should the model artefacts be reacquired? - the '
                                              'argument value must be either True or False') \
