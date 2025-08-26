@@ -54,8 +54,8 @@ class Future:
         summary = pd.DataFrame.from_records(data=tokens)
         logging.info('The summary:\n %s', summary)
 
-        if not summary.empty:
-            summary = summary.copy()[['word', 'entity', 'score']]
+        summary = summary.copy()[['word', 'entity', 'score']] if not summary.empty else summary
+        logging.info('The summary:\n %s', summary)
 
         # For the future
         self.__algorithms.exc(text=text, tokens=tokens)
