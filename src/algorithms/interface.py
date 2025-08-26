@@ -13,6 +13,7 @@ import src.algorithms.page
 import src.functions.objects
 import src.functions.streams
 import src.algorithms.inapplicable
+import src.algorithms.reconstruction
 
 
 class Interface:
@@ -100,3 +101,5 @@ class Interface:
         # Else
         mappings = self.__get_mappings(page=page, tokens=tokens, m_config=m_config)
         self.__streams.write(blob=mappings, path=self.__path())
+
+        src.algorithms.reconstruction.Reconstruction().exc(mappings=mappings)
