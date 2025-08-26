@@ -1,4 +1,3 @@
-import logging
 import pandas as pd
 
 class Reconstruction:
@@ -8,7 +7,7 @@ class Reconstruction:
         self.__fields = ['word', 'tag_p', 'score', 'start', 'end']
         self.__rename = {'tag_p': 'entity'}
 
-    def exc(self, mappings: pd.DataFrame):
+    def exc(self, mappings: pd.DataFrame) -> list[dict]:
         """
 
         :param mappings:
@@ -21,4 +20,4 @@ class Reconstruction:
         frame: pd.DataFrame = frame.copy().loc[frame['score'].notna(), :]
         frame.rename(columns=self.__rename, inplace=True)
 
-        logging.info(frame.to_dict(orient='records'))
+        return frame.to_dict(orient='records')
