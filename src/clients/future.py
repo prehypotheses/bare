@@ -51,13 +51,11 @@ class Future:
         tokens = self.__classifier(text)
         logging.info('The tokens:\n %s', tokens)
 
+        # Summary
         summary = pd.DataFrame.from_records(data=tokens)
-        logging.info('The summary:\n %s', summary)
-
         summary = summary.copy()[['word', 'entity', 'score']] if not summary.empty else summary
-        logging.info('The summary:\n %s', summary)
 
-        # For the future
+        # Reconstructing & Persisting
         tokens = tokens if len(tokens) == 0 else self.__algorithms.exc(text=text, tokens=tokens)
 
         return {'text': text, 'entities': tokens}, summary.to_dict(orient='records'), tokens
