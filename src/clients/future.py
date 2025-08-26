@@ -36,10 +36,9 @@ class Future:
         self.__algorithms = src.algorithms.interface.Interface()
 
         # Pipeline
+        # noinspection PyTypeChecker
         self.__classifier = transformers.pipeline(
             task='ner', model=os.path.join(self.__configurations.data_, 'model'),
-            # config=os.path.join(self.__configurations.data_, 'model'),
-            # tokenizer=os.path.join(self.__configurations.data_, 'model'),
             device=self.__configurations.device)
 
     def __custom(self, text):
@@ -51,16 +50,13 @@ class Future:
 
         tokens = self.__classifier(text)
         logging.info('The tokens:\n %s', tokens)
-        # tokens = [] if tokens is None else tokens
 
+        # Reconstructing & Persisting
+        tokens = tokens if len(tokens) == 0 else self.__algorithms.exc(text=text, tokens=tokens)
+
+        # Summary
         summary = pd.DataFrame.from_records(data=tokens)
-        logging.info('The summary:\n %s', summary)
-
-        if not summary.empty:
-            summary = summary.copy()[['word', 'entity', 'score']]
-
-        # For the future
-        self.__algorithms.exc(text=text, tokens=tokens)
+        summary = summary.copy()[['word', 'entity', 'score']] if not summary.empty else summary
 
         return {'text': text, 'entities': tokens}, summary.to_dict(orient='records'), tokens
 

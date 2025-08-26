@@ -4,6 +4,8 @@ import os
 import random
 import string
 
+import pandas as pd
+
 import config
 import src.algorithms.detections
 import src.algorithms.mappings
@@ -11,6 +13,7 @@ import src.algorithms.page
 import src.functions.objects
 import src.functions.streams
 import src.algorithms.inapplicable
+import src.algorithms.reconstruction
 
 
 class Interface:
@@ -56,7 +59,26 @@ class Interface:
 
         return  os.path.join(self.__configurations.interactions_, f'{name}.csv')
 
-    def exc(self, text: str, tokens: list) -> str:
+    def __get_mappings(self, page: pd.DataFrame, tokens:list, m_config: dict) -> pd.DataFrame:
+        """
+
+        :param page:
+        :param tokens:
+        :param m_config:
+        :return:
+        """
+
+        # The detections
+        detections = src.algorithms.detections.Detections(tokens=tokens).exc(m_config=m_config)
+        self.__logger.info('Detections:\n%s', detections)
+
+        # Hence, map
+        mappings = src.algorithms.mappings.Mappings(page=page, detections=detections).exc(m_config=m_config)
+        self.__logger.info('Mappings:\n%s', mappings)
+
+        return mappings
+
+    def exc(self, text: str, tokens: list) -> list:
         """
 
         :param text:
@@ -71,18 +93,13 @@ class Interface:
         page = src.algorithms.page.Page(text=text).exc()
         self.__logger.info('Page:\n%s', page)
 
-        # None of the tokens is classifiable, therefore ...
+        # If tokens is empty ...
         if len(tokens) == 0:
-            mappings = src.algorithms.inapplicable.Inapplicable().exc(page=page)
-            return self.__streams.write(blob=mappings, path=self.__path())
+            self.__streams.write(blob=src.algorithms.inapplicable.Inapplicable().exc(page=page), path=self.__path())
+            return []
 
-        # The detections
-        detections = src.algorithms.detections.Detections(tokens=tokens).exc(m_config=m_config)
-        self.__logger.info('Detections:\n%s', detections)
+        # Else
+        mappings = self.__get_mappings(page=page, tokens=tokens, m_config=m_config)
+        self.__streams.write(blob=mappings, path=self.__path())
 
-        # Hence, map
-        mappings = src.algorithms.mappings.Mappings(page=page, detections=detections).exc(m_config=m_config)
-        self.__logger.info('Mappings:\n%s', mappings)
-
-        # Save
-        return self.__streams.write(blob=mappings, path=self.__path())
+        return src.algorithms.reconstruction.Reconstruction().exc(mappings=mappings)
