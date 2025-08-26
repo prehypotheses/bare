@@ -50,7 +50,6 @@ class Future:
 
         tokens = self.__classifier(text)
         logging.info('The tokens:\n %s', tokens)
-        # tokens = [] if tokens is None else tokens
 
         summary = pd.DataFrame.from_records(data=tokens)
         logging.info('The summary:\n %s', summary)
