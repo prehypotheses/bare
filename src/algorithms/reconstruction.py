@@ -1,8 +1,16 @@
+"""Module reconstruction.py"""
 import pandas as pd
 
+
 class Reconstruction:
+    """
+    Reconstruction
+    """
 
     def __init__(self):
+        """
+        Constructor
+        """
 
         self.__fields = ['word', 'tag_p', 'score', 'start', 'end']
         self.__rename = {'tag_p': 'entity'}
@@ -10,7 +18,7 @@ class Reconstruction:
     def exc(self, mappings: pd.DataFrame) -> list[dict]:
         """
 
-        :param mappings:
+        :param mappings: ['start', 'word', 'end', 'code_of_tag_p', 'score', 'tag_p'] wherein '_p' denotes predicted.
         :return:
         """
 
